@@ -205,7 +205,11 @@ class UserInfoCard extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 4),
-          child: Text((data.bio?.isEmpty ?? true) ? '这个人很懒，什么都没写' : data.bio!),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Icon(Icons.sell),
+            const SizedBox(width: 5.0),
+            Text((data.bio?.isEmpty ?? true) ? '这个人很懒，什么都没写' : data.bio!),
+          ]),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 4),
