@@ -1,6 +1,6 @@
 # c001apk-flutter
 
-This is a fork of @bggRGjQaUbCoE's discontinued project [c001apk-flutter](https://github.com/bggRGjQaUbCoE/c001apk-flutter), which is a third-party CoolApk (酷安) client.
+This is a fork of the discontinued [c001apk-flutter](https://github.com/bggRGjQaUbCoE/c001apk-flutter) project, originally developed by [@bggRGjQaUbCoE](https://github.com/bggRGjQaUbCoE), which is a third-party CoolApk (酷安) client.
 
 ## Arch Linux
 
