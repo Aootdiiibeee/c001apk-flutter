@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/system_chrome.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
@@ -28,6 +28,11 @@ void main() async {
           Platform.isMacOS ? TitleBarStyle.hidden : TitleBarStyle.normal,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
+      // ===== 关键修改：启动时进入全屏模式 =====
+      // 先设置全屏，然后再显示窗口
+      await windowManager.setFullScreen(true);
+      // ===== 关键修改结束 =====
+      
       await windowManager.show();
       await windowManager.focus();
     });
@@ -88,6 +93,8 @@ class C001APKAPP extends StatelessWidget {
         theme: ThemeData(
           colorScheme: selectedTheme == 2 ? darkColorScheme : lightColorScheme,
           useMaterial3: true,
+          fontFamily: 'Noto Sans CJK SC', // 添加字体家族
+          fontFamilyFallback: const ['Noto Color Emoji'], // 添加备选字体
           navigationBarTheme: NavigationBarThemeData(
               surfaceTintColor: (lightDynamic != null && useMaterial)
                   ? lightColorScheme.surfaceTint
@@ -126,6 +133,8 @@ class C001APKAPP extends StatelessWidget {
         darkTheme: ThemeData(
           colorScheme: selectedTheme == 1 ? lightColorScheme : darkColorScheme,
           useMaterial3: true,
+          fontFamily: 'Noto Sans CJK SC', // 添加字体家族
+          fontFamilyFallback: const ['Noto Color Emoji'], // 添加备选字体
           navigationBarTheme: NavigationBarThemeData(
               surfaceTintColor: (lightDynamic != null && useMaterial)
                   ? darkColorScheme.surfaceTint
