@@ -20,22 +20,19 @@ static void my_application_activate(GApplication* application) {
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
-  // The following code is adapted from LocalSend
-  // (https://github.com/localsend/localsend/blob/main/app/linux/my_application.cc#L26-L37).
-  //
-  // Licensed under the Apache License, Version 2.0.
-  const char *GTK_CSD = getenv("GTK_CSD");
-  if (GTK_CSD && strcmp(GTK_CSD, "1") == 0) {
-    GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
-    gtk_widget_show(GTK_WIDGET(header_bar));
-    gtk_header_bar_set_title(header_bar, "c001apk-flutter");
-    gtk_header_bar_set_show_close_button(header_bar, TRUE);
-    gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
-  } else {
-    gtk_window_set_title(window, "c001apk-flutter");
-  }
+  // ===== 关键修改开始：彻底禁用标题栏 =====
+  // 原代码根据GTK_CSD环境变量决定是否创建标题栏，现强制不创建
+  // 直接设置窗口标题，不创建任何标题栏组件
+  gtk_window_set_title(window, "c001apk-flutter");
+  // ===== 关键修改结束 =====
 
+  // 设置窗口默认尺寸（最大化时会覆盖此设置，但保留无妨）
   gtk_window_set_default_size(window, 1280, 720);
+  
+  // ===== 关键修改：启动时最大化窗口 =====
+  gtk_window_maximize(window);
+  // ===== 关键修改结束 =====
+
   gtk_widget_show(GTK_WIDGET(window));
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
