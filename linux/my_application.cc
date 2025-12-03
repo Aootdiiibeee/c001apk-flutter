@@ -14,21 +14,39 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+// ===== 新增：窗口状态改变事件回调函数 =====
+static gboolean on_window_state_event(GtkWidget* widget, GdkEventWindowState* event, gpointer user_data) {
+  GtkWindow* window = GTK_WINDOW(widget);
+  
+  // 检查窗口新的状态是否包含“最大化” (GDK_WINDOW_STATE_MAXIMIZED)
+  gboolean is_maximized = (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
+  
+  // 动态设置窗口装饰：最大化时隐藏，非最大化时显示
+  gtk_window_set_decorated(window, !is_maximized);
+  
+  // 让事件继续传递
+  return FALSE;
+}
+// ===== 新增部分结束 =====
+
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
-  // ===== 关键修正开始：彻底移除标题栏创建逻辑 =====
-  // 直接设置窗口标题，不创建任何形式的标题栏（包括HeaderBar）
+  // 设置窗口标题（标题栏显示时会用到）
   gtk_window_set_title(window, "c001apk-flutter");
-  // ===== 关键修正结束 =====
 
-  // 设置窗口默认尺寸（最大化时会覆盖此设置，但保留无妨）
+  // ===== 关键修改：连接窗口状态改变信号 =====
+  // 当窗口状态（最大化、最小化等）改变时，调用上面定义的 on_window_state_event 函数
+  g_signal_connect(window, "window-state-event", G_CALLBACK(on_window_state_event), NULL);
+  // =========================================
+
+  // 设置窗口默认尺寸
   gtk_window_set_default_size(window, 1280, 720);
   
-  // 启动时最大化窗口
+  // 启动时最大化窗口（这将自动触发上面的回调，隐藏标题栏）
   gtk_window_maximize(window);
 
   gtk_widget_show(GTK_WIDGET(window));
