@@ -20,18 +20,16 @@ static void my_application_activate(GApplication* application) {
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
-  // ===== 关键修改开始：彻底禁用标题栏 =====
-  // 原代码根据GTK_CSD环境变量决定是否创建标题栏，现强制不创建
-  // 直接设置窗口标题，不创建任何标题栏组件
+  // ===== 关键修正开始：彻底移除标题栏创建逻辑 =====
+  // 直接设置窗口标题，不创建任何形式的标题栏（包括HeaderBar）
   gtk_window_set_title(window, "c001apk-flutter");
-  // ===== 关键修改结束 =====
+  // ===== 关键修正结束 =====
 
   // 设置窗口默认尺寸（最大化时会覆盖此设置，但保留无妨）
   gtk_window_set_default_size(window, 1280, 720);
   
-  // ===== 关键修改：启动时最大化窗口 =====
+  // 启动时最大化窗口
   gtk_window_maximize(window);
-  // ===== 关键修改结束 =====
 
   gtk_widget_show(GTK_WIDGET(window));
 
