@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/system_chrome.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
@@ -91,10 +91,13 @@ class C001APKAPP extends StatelessWidget {
       return GetMaterialApp(
         title: 'c001apk',
         theme: ThemeData(
+          // ===== 添加字体配置 =====
+          fontFamily: 'Noto Sans CJK SC', // 主要字体
+          fontFamilyFallback: ['Noto Color Emoji'], // 后备字体
+          // ===== 字体配置结束 =====
+          
           colorScheme: selectedTheme == 2 ? darkColorScheme : lightColorScheme,
           useMaterial3: true,
-          fontFamily: 'Noto Sans CJK SC', // 添加字体家族
-          fontFamilyFallback: const ['Noto Color Emoji'], // 添加备选字体
           navigationBarTheme: NavigationBarThemeData(
               surfaceTintColor: (lightDynamic != null && useMaterial)
                   ? lightColorScheme.surfaceTint
@@ -131,10 +134,13 @@ class C001APKAPP extends StatelessWidget {
           ),
         ),
         darkTheme: ThemeData(
+          // ===== 添加字体配置 =====
+          fontFamily: 'Noto Sans CJK SC', // 主要字体
+          fontFamilyFallback: ['Noto Color Emoji'], // 后备字体
+          // ===== 字体配置结束 =====
+          
           colorScheme: selectedTheme == 1 ? lightColorScheme : darkColorScheme,
           useMaterial3: true,
-          fontFamily: 'Noto Sans CJK SC', // 添加字体家族
-          fontFamilyFallback: const ['Noto Color Emoji'], // 添加备选字体
           navigationBarTheme: NavigationBarThemeData(
               surfaceTintColor: (lightDynamic != null && useMaterial)
                   ? darkColorScheme.surfaceTint
