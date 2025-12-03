@@ -28,11 +28,10 @@ void main() async {
           Platform.isMacOS ? TitleBarStyle.hidden : TitleBarStyle.normal,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      // ===== 关键修改：启动时进入全屏模式 =====
-      // 先设置全屏，然后再显示窗口
-      await windowManager.setFullScreen(true);
+      // ===== 关键修改：启动时最大化窗口（保留GNOME顶栏） =====
+      await windowManager.maximize(); // 将 setFullScreen(true) 改为 maximize()
       // ===== 关键修改结束 =====
-      
+
       await windowManager.show();
       await windowManager.focus();
     });
@@ -95,7 +94,7 @@ class C001APKAPP extends StatelessWidget {
           fontFamily: 'Noto Sans CJK SC', // 主要字体
           fontFamilyFallback: ['Noto Color Emoji'], // 后备字体
           // ===== 字体配置结束 =====
-          
+
           colorScheme: selectedTheme == 2 ? darkColorScheme : lightColorScheme,
           useMaterial3: true,
           navigationBarTheme: NavigationBarThemeData(
@@ -138,7 +137,7 @@ class C001APKAPP extends StatelessWidget {
           fontFamily: 'Noto Sans CJK SC', // 主要字体
           fontFamilyFallback: ['Noto Color Emoji'], // 后备字体
           // ===== 字体配置结束 =====
-          
+
           colorScheme: selectedTheme == 1 ? lightColorScheme : darkColorScheme,
           useMaterial3: true,
           navigationBarTheme: NavigationBarThemeData(
